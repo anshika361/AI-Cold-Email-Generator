@@ -12,8 +12,8 @@ const buildLinkedInPrompt = require("./linkedinPrompt");
 
 // ── Configuration ────────────────────────────────────────────────────────
 const config = {
-    corsOrigin: process.env.CORS_ORIGIN,
-    serverPort: parseInt(process.env.SERVER_PORT, 10),
+    corsOrigin: process.env.CORS_ORIGIN || "*",
+    serverPort: parseInt(process.env.PORT || process.env.SERVER_PORT || "3000", 10),
     groqApiUrl: process.env.GROQ_API_URL,
     groqModel: process.env.GROQ_MODEL,
     groqApiKey: process.env.GROQ_API_KEY,
@@ -40,7 +40,11 @@ const upload = multer({
     },
 });
 
-app.use(cors({ origin: config.corsOrigin }));
+app.use(cors({
+    origin: config.corsOrigin === "*" ? true : config.corsOrigin,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(express.json());
 
 // ── Helper: call Groq ─────────────────────────────────────────────────────
