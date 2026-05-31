@@ -14,8 +14,8 @@ type Research = {
 };
 
 // ── API Configuration ────────────────────────────────────────────────────────
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-const CLEARBIT_API_URL = import.meta.env.VITE_CLEARBIT_API_URL || "https://autocomplete.clearbit.com/v1/companies/suggest";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+const CLEARBIT_API_URL = import.meta.env.VITE_CLEARBIT_API_URL;
 
 function useDebounce(value: string, delay: number) {
     const [debounced, setDebounced] = useState(value);

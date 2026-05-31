@@ -155,6 +155,10 @@ async function researchWithTavily(company, role, send) {
     return { snippets: allSnippets.join("\n\n"), sources };
 }
 
+app.get("/", (req, res) => {
+    res.send("AI Cold Email Backend Running 🚀");
+});
+
 // ── Route ─────────────────────────────────────────────────────────────────
 app.post("/generate", upload.single("resume"), async (req, res) => {
     let filePath = null;
