@@ -171,7 +171,7 @@ app.post("/generate", upload.single("resume"), async (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
-    res.setHeader("Access-Control-Allow-Origin", config.corsOrigin);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.flushHeaders();
 
     const send = (event, data) => sse(res, event, data);
