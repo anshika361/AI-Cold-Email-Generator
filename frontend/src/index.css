@@ -1,0 +1,354 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary: #0a0a12;
+  --bg-secondary: #10101e;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --border-focus: rgba(99, 102, 241, 0.6);
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-glow: rgba(99, 102, 241, 0.25);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --success: #22d3ee;
+  --gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }
+
+/* ── Animated background grid ──────────────────── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow {
+  position: fixed;
+  top: -30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(ellipse at center, rgba(99,102,241,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Glass card ─────────────────────────────────── */
+.glass {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.glass:hover {
+  border-color: rgba(255,255,255,0.12);
+  background: var(--bg-card-hover);
+}
+
+/* ── Inputs ─────────────────────────────────────── */
+.inp {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.inp::placeholder { color: var(--text-muted); }
+.inp:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: rgba(255,255,255,0.07);
+}
+
+/* ── Dropdown ───────────────────────────────────── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: #1a1a2e;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  overflow: hidden;
+  z-index: 50;
+  animation: dropIn 0.15s ease;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item:hover {
+  background: rgba(99,102,241,0.15);
+  color: var(--text-primary);
+}
+
+/* ── Primary button ─────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.3px;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover:not(:disabled)::after { opacity: 1; }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── File upload ────────────────────────────────── */
+.file-zone {
+  width: 100%;
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.file-zone:hover {
+  border-color: var(--accent);
+  background: rgba(99,102,241,0.05);
+}
+.file-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.file-zone.has-file {
+  border-color: #22d3ee;
+  background: rgba(34,211,238,0.05);
+}
+.file-zone.dragging {
+  border-color: var(--accent);
+  background: rgba(99,102,241,0.1);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ── Label ──────────────────────────────────────── */
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ── Tag pill ───────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(99,102,241,0.15);
+  border: 1px solid rgba(99,102,241,0.3);
+  color: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── Email card ─────────────────────────────────── */
+.email-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  animation: fadeUp 0.4s ease both;
+}
+.email-card:hover {
+  border-color: rgba(99,102,241,0.3);
+  box-shadow: 0 8px 40px rgba(99,102,241,0.1);
+}
+
+.email-card-header {
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.08));
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.email-body {
+  padding: 20px;
+  font-family: 'Inter', monospace;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  white-space: pre-line;
+}
+
+.btn-copy {
+  margin: 0 20px 20px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn-copy:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.15);
+}
+.btn-copy.copied {
+  border-color: #22d3ee;
+  color: #22d3ee;
+  background: rgba(34,211,238,0.08);
+}
+
+.btn-send {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: rgba(99,102,241,0.1);
+  color: var(--accent-light);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.btn-send:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+.btn-send.linkedin {
+  border-color: #0077b5;
+  background: rgba(0,119,181,0.1);
+  color: #00a0dc;
+}
+.btn-send.linkedin:hover {
+  background: #0077b5;
+  color: #fff;
+}
+
+/* ── Loading spinner ────────────────────────────── */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* ── Animations ─────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* ── Stagger animation delay for email cards ───── */
+.email-card:nth-child(1) { animation-delay: 0ms; }
+.email-card:nth-child(2) { animation-delay: 100ms; }
+.email-card:nth-child(3) { animation-delay: 200ms; }
+
+/* ── Gradient text ──────────────────────────────── */
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Progress loading bar ───────────────────────── */
+.loading-bar {
+  height: 2px;
+  background: var(--gradient);
+  border-radius: 99px;
+  animation: loadBar 2s ease-in-out infinite;
+  transform-origin: left;
+}
+@keyframes loadBar {
+  0% { transform: scaleX(0); opacity: 1; }
+  70% { transform: scaleX(0.9); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
